@@ -13,14 +13,39 @@
 		"If you are finished chatting about men, perhaps we can go back to what is important?",
 		"What he needs is what he always needed. Somebody to box his ears once a week on general principles and keep him on the straight and narrow.",
 		"Wretched; wretched; wretched!",
-		"The last thing I need on my hands is a couple of whining, bleating novices!"
+		"The last thing I need on my hands is a couple of whining, bleating novices!",
+		"I do not have to make sense.",
+		"Would you have me choose between a foolish oath and the fate of the world?",
+		"If you're going to raise me, then you'll just have to trust my judgment",
+		"This is *not* a time to push me",
+		"Someone ought to slap some sense into that pair",
+		"I will NOT apologize.",
+		"I can’t abide women who poke their noses into other people’s business.",
+		"If you get yourself killed I will skin you alive."
 
 	],
+	"TV": [],
+	"The Eye of the World": [],
+	"The Great Hunt": [],
+	"The Dragon Reborn": [],
 	"The Shadow Rising": [
 		"I'm fairly certain three big, hairy men can protect Elayne and me if she pulls a Seanchan army out of her pouch."
 	],
 	"The Fires of Heaven": [
 		"What right did that green-eyed cat have to look at Lan's shoulders?"
-	]
+	],
+	"Lord of Chaos": [],
+	"A Crown of Swords": [],
+	"The Path of Daggers": [],
+	"Winter's Heart": [],
+	"Crossroads of Twilight": [],
+	"Knife of Dreams": [
+		"My husband rides from World’s End toward Tarwin’s Gap, toward Tarmon Gai’don. Will he ride alone?",
+		"I told you I would take you to the Borderlands, Lan, and I have. Remember your oath, my heart, because I surely will."
+	],
+	"The Gathering Storm": [],
+	"Towers of Midnight": [],
+	"A Memory of Light": [],
+	"All": []
 }
 
