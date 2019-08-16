@@ -1,0 +1,18 @@
+{
+	"test": [
+		{
+			"name": "testingground4bots",
+			"spoilers": "none"
+		}
+	],
+	"production": [
+		{
+			"name": "wot",
+			"spoilers": "dynamic"
+		},
+		{
+			"name": "wetlanderhumor",
+			"spoilers": "all"
+		}
+	]
+}
