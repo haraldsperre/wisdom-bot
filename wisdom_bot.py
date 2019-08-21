@@ -6,58 +6,48 @@ import time
 from random import choice
 from prawcore.exceptions import PrawcoreException as APIException # PRAW API exception handlers
 
-ENVIRONMENT = 'test'
+ENVIRONMENT = 'test' # 'test' = testingground4bots, 'production' = WoT subreddits
 
-reddit = praw.Reddit(site_name='wisdom')
+reddit = praw.Reddit(site_name='wisdom') # site name defines reddit variables from praw.ini
 
 with open('settings/subreddits.json') as subreddits_file:
   subs = json.load(subreddits_file)[ENVIRONMENT]
-  subreddits = '+'.join([sub['name'] for sub in subs])
+  subreddits = '+'.join([sub['name'] for sub in subs]) # get '+'-separated list of subreddits
+                                                       # '/r/WOT+wetlanderhumor' works
 
 with open('settings/keywords.json') as keywords_file:
-  keywords = json.load(keywords_file)
+  keywords = json.load(keywords_file) # create the list of keywords to listen for in comments
 
 with open('data/answered') as answered_file:
-  answered_comments = answered_file.read().split('\n')
+  answered_comments = answered_file.read().split('\n') # don't reply to the same comment more than once
 
 with open('data/quotes.json') as quote_file:
-  quotes = json.load(quote_file)
+  quotes = json.load(quote_file) # Dictionary of quotes indexed by spoiler scope
 
 while True:
   try:
-    for comment in reddit.subreddit(subreddits).stream.comments():
-      if not type(comment) is praw.models.reddit.comment.Comment:
-        continue
+    for comment in reddit.subreddit(subreddits).stream.comments(): # continuous stream of comments
+                                                                   # from chosen subreddits
       comment_text = comment.body
       comment_id = comment.id
-
       if (any(re.match(keyword, comment_text, re.IGNORECASE) for keyword in keywords) and
         comment.author != 'braid_tugger-bot' and
         comment_id not in answered_comments):
 
         quote = choice(quotes['None'])
         try:
-          comment.reply(quote)
-        except APIException as e:
-          raise e
+          comment.reply(quote) # try to reply to the comment
+        except APIException as e: # in case of too many requests, propagate the error
+          raise e                 # to the outer try, wait and try again
         else:
           print("success")
           print(comment_text)
-          with open('data/answered', 'a') as answered_file:
-            answered_file.write(comment_id + '\n')
+          with open('data/answered', 'a') as answered_file: # log successful reply so we
+            answered_file.write(comment_id + '\n')          # don't reply again
   except KeyboardInterrupt:
     print('Logging off reddit..')
     break
-  except APIException as e:
+  except APIException as e: # most likely due to frequency of requests. Wait before retrying
     print(e)
     print(comment_text)
     time.sleep(10)
-
-
-def yield_comments_from_post(post):
-  if post.comments is callable:
-    for comment in post.comments():
-      yield comment
-    else:
-      for comment in post.comments.list():
-        yield comment
