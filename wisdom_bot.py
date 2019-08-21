@@ -6,7 +6,7 @@ import time
 from random import choice
 from prawcore.exceptions import PrawcoreException as APIException # PRAW API exception handlers
 
-ENVIRONMENT = 'test' # 'test' = testingground4bots, 'production' = WoT subreddits
+ENVIRONMENT = 'production' # 'test' = testingground4bots, 'production' = WoT subreddits
 
 reddit = praw.Reddit(site_name='wisdom') # site name defines reddit variables from praw.ini
 
@@ -30,11 +30,11 @@ while True:
                                                                    # from chosen subreddits
       comment_text = comment.body
       comment_id = comment.id
-      if (any(re.match(keyword, comment_text, re.IGNORECASE) for keyword in keywords) and
+      if (any(re.search(keyword, comment_text, re.IGNORECASE) for keyword in keywords) and
         comment.author != 'braid_tugger-bot' and
         comment_id not in answered_comments):
 
-        quote = choice(quotes['None'])
+        quote = choice(quotes['None']) # Random spiler-free quote
         try:
           comment.reply(quote) # try to reply to the comment
         except APIException as e: # in case of too many requests, propagate the error
