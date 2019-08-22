@@ -36,13 +36,14 @@ while True:
         comment_id not in answered_comments):
 
         quote = choice(quotes['None']) # Random spiler-free quote
+        reply = quote.replace('{user}', '/u/'+comment.author.name) # personalize some quotes
         try:                           # try to reply to the comment
-          comment.reply(quote.replace("{user}", "/u/"+comment.author.name))
+          comment.reply(reply)
         except APIException as e: # in case of too many requests, propagate the error
           raise e                 # to the outer try, wait and try again
         else:
           print(comment_text)
-          print(quote)
+          print(reply)
           with open('data/answered', 'a') as answered_file: # log successful reply so we
             answered_file.write(comment_id + '\n')          # don't reply again
   except KeyboardInterrupt:
