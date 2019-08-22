@@ -25,6 +25,7 @@ with open('data/quotes.json') as quote_file:
   quotes = json.load(quote_file) # Dictionary of quotes indexed by spoiler scope
 
 while True:
+  print('Running wisdom on reddit.com/r/'+subreddits)
   try:
     for comment in reddit.subreddit(subreddits).stream.comments(): # continuous stream of comments
                                                                    # from chosen subreddits
@@ -35,13 +36,13 @@ while True:
         comment_id not in answered_comments):
 
         quote = choice(quotes['None']) # Random spiler-free quote
-        try:
-          comment.reply(quote) # try to reply to the comment
+        try:                           # try to reply to the comment
+          comment.reply(quote.replace("{user}", "/u/"+comment.author.name))
         except APIException as e: # in case of too many requests, propagate the error
           raise e                 # to the outer try, wait and try again
         else:
-          print("success")
           print(comment_text)
+          print(quote)
           with open('data/answered', 'a') as answered_file: # log successful reply so we
             answered_file.write(comment_id + '\n')          # don't reply again
   except KeyboardInterrupt:
