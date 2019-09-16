@@ -28,7 +28,7 @@ with open('settings/keywords.json') as keywords_file:
 with open('data/answered') as answered_file:
   answered_comments = answered_file.read().split('\n') # don't reply to the same comment more than once
 
-with open('/data/blocked_users') as blocked_file:
+with open('data/blocked_users') as blocked_file:
   blocked_users = blocked_file.read().split('\n') # don't reply to users who don't want replies
 
 with open('data/quotes.json') as quote_file:
