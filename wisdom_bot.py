@@ -10,6 +10,13 @@ ENVIRONMENT = 'production' # 'test' = testingground4bots, 'production' = WoT sub
 
 reddit = praw.Reddit(site_name='wisdom') # site name defines reddit variables from praw.ini
 
+def log(string):
+  if ENVIRONMENT == 'production':
+    with open('data/log.txt', 'a') as log_file:
+      log_file.write(string + '\n')
+  else:
+    print(string)
+
 with open('settings/subreddits.json') as subreddits_file:
   subs = json.load(subreddits_file)[ENVIRONMENT]
   subreddits = '+'.join([sub['name'] for sub in subs]) # get '+'-separated list of subreddits
@@ -28,7 +35,7 @@ with open('data/quotes.json') as quote_file:
   quotes = json.load(quote_file) # Dictionary of quotes indexed by spoiler scope
 
 while True:
-  print('Running wisdom on reddit.com/r/'+subreddits)
+  log('\n\nRunning wisdom on reddit.com/r/'+subreddits)
   try:
     for comment in reddit.subreddit(subreddits).stream.comments(): # continuous stream of comments
                                                                    # from chosen subreddits
@@ -51,9 +58,9 @@ while True:
           with open('data/answered', 'a') as answered_file: # log successful reply so we
             answered_file.write(comment_id + '\n')          # don't reply again
   except KeyboardInterrupt:
-    print('Logging off reddit..')
+    log('Logging off reddit..\n')
     break
   except APIException as e: # most likely due to frequency of requests. Wait before retrying
-    print(e)
-    print(comment_text)
+    log(e)
+    log(comment_text)
     time.sleep(10)
