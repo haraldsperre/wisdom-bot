@@ -21,6 +21,9 @@ with open('settings/keywords.json') as keywords_file:
 with open('data/answered') as answered_file:
   answered_comments = answered_file.read().split('\n') # don't reply to the same comment more than once
 
+with open('/data/blocked_users') as blocked_file:
+  blocked_users = blocked_file.read().split('\n') # don't reply to users who don't want replies
+
 with open('data/quotes.json') as quote_file:
   quotes = json.load(quote_file) # Dictionary of quotes indexed by spoiler scope
 
@@ -33,6 +36,7 @@ while True:
       comment_id = comment.id
       if (any(re.search(keyword, comment_text, re.IGNORECASE) for keyword in keywords) and
         comment.author != 'braid_tugger-bot' and
+        comment.author not in blocked_users and
         comment_id not in answered_comments):
 
         quote = choice(quotes['None']) # Random spiler-free quote

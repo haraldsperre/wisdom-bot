@@ -1,9 +1,9 @@
 {
 	"None": [
-		"That young man is growing too big for his breeches. When I get my hand on him, I'll lord him.",
+		"{user}is growing too big for his breeches. When I get my hand on him, I'll lord him.",
 		"If we are caught, I swear that before they kill us, or do whatever they do, I will beg them on bended knees to let me stripe you from top to bottom with the stoutest switch I can find",
 		"You come back here, or I'll hero you! I'll thump you so you think you've had an adventure!",
-		"He isn't a horse, Elayne. You don't own him.",
+		"He isn't a horse, {user}. You don't own him.",
 		"I left... to save you. I only came along to protect you.",
 		"Don't be a woolhead!",
 		"*Sniff*",
@@ -24,9 +24,9 @@
 		"If you get yourself killed I will skin you alive.",
 		"#Tugs braid",
 		"*Smooths skirts*",
-		"You are just stupid enough to do that, aren't you, Mathrim Cauthon?",
-		"Watch your tongue, Matrim!",
-		"If you are done staring like a moonstruck lamb, Rand al'Thor, perhaps you can tell me why you were talking about something even you three great bullcalves ought to have sense enough to keep out of your mouths.",
+		"You are just stupid enough to do that, aren't you, {user}?",
+		"Watch your tongue, {user}!",
+		"If you are done staring like a moonstruck lamb, {user}, perhaps you can tell me why you were talking about something even you three great bullcalves ought to have sense enough to keep out of your mouths.",
 		"If I know them, they're asking all the wrong questions and none of the right ones.",
 		"It will take the Women's circle to find out anything useful.",
 		"**I WILL NOT SHOUT AT YOU!**",
@@ -43,7 +43,13 @@
 		"The light save me from men who think with the hair on their chests",
 		"And that is why I am here; because the men around Emond's Field are stubborn wool-heads.",
 		"Now you straighten up and stop this foolishness.",
-		"Today, I am going to have a bath. For the rest, we will have to see, won't we?"
+		"Today, I am going to have a bath. For the rest, we will have to see, won't we?",
+		"This is no time for games.",
+		"I may not like her, it is true, but I help anyone who needs my help, whether I like them or not.",
+		"There are many things I don't know. What thing is this?",
+		"Don't be a fool, {user}! The Dark One is bound in Shayol Ghul by the Creator.",
+		"The Light preserve you, {user}!",
+
 	],
 	"TV": [],
 	"The Eye of the World": [],
@@ -62,7 +68,7 @@
 	"Crossroads of Twilight": [],
 	"Knife of Dreams": [
 		"My husband rides from World’s End toward Tarwin’s Gap, toward Tarmon Gai’don. Will he ride alone?",
-		"I told you I would take you to the Borderlands, Lan, and I have. Remember your oath, my heart, because I surely will."
+		"I told you I would take you to the Borderlands, {user}, and I have. Remember your oath, my heart, because I surely will."
 	],
 	"The Gathering Storm": [],
 	"Towers of Midnight": [],
