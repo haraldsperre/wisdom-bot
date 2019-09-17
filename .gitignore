@@ -106,3 +106,4 @@ venv.bak/
 # Auto generated files
 data/answered
 praw.ini
+data/log.txt
