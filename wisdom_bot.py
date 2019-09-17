@@ -17,6 +17,9 @@ def log(string):
   else:
     print(string)
 
+def register_reply(comment_id):
+  with open('data/answered', 'a') as answered_file: # log successful reply so we
+    answered_file.write(comment_id + '\n')          # don't reply again
 with open('settings/subreddits.json') as subreddits_file:
   subs = json.load(subreddits_file)[ENVIRONMENT]
   subreddits = '+'.join([sub['name'] for sub in subs]) # get '+'-separated list of subreddits
@@ -55,12 +58,13 @@ while True:
         else:
           print(comment_text)
           print(reply)
-          with open('data/answered', 'a') as answered_file: # log successful reply so we
-            answered_file.write(comment_id + '\n')          # don't reply again
+          register_reply(comment_id)
   except KeyboardInterrupt:
     log('Logging off reddit..\n')
     break
   except APIException as e: # most likely due to frequency of requests. Wait before retrying
+    if 'braid_tugger-bot' in [c.author.name for c in comment.replies]:
+      register_reply(comment_id)
     log(e)
     log(comment_text)
     time.sleep(10)
