@@ -65,6 +65,6 @@ while True:
   except APIException as e: # most likely due to frequency of requests. Wait before retrying
     if 'braid_tugger-bot' in [c.author.name for c in comment.replies]:
       register_reply(comment_id)
-    log(e)
+    log(str(e))
     log(comment_text)
     time.sleep(10)
