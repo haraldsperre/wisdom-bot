@@ -8,34 +8,48 @@ from prawcore.exceptions import PrawcoreException as APIException # PRAW API exc
 
 ENVIRONMENT = 'production' # 'test' = testingground4bots, 'production' = WoT subreddits
 
-reddit = praw.Reddit(site_name='wisdom') # site name defines reddit variables from praw.ini
+class WisdomBot:
 
-def log(string):
-  if ENVIRONMENT == 'production':
-    with open('data/log.txt', 'a') as log_file:
-      log_file.write(string + '\n')
-  else:
-    print(string)
+  def __init__(self):
+    self.reddit = praw.Reddit(site_name='wisdom') # site name defines reddit variables from praw.ini
+    with open('settings/subreddits.json') as subreddits_file:
+      subs = json.load(subreddits_file)[ENVIRONMENT]
+      self.subreddits = '+'.join([sub['name'] for sub in subs]) # get '+'-separated list of subreddits
+                                                                # '/r/WOT+wetlanderhumor' works
+    with open('settings/keywords.json') as keywords_file:
+      self.keywords = json.load(keywords_file) # create the list of keywords to listen for in comments
 
-def register_reply(comment_id):
-  with open('data/answered', 'a') as answered_file: # log successful reply so we
-    answered_file.write(comment_id + '\n')          # don't reply again
-with open('settings/subreddits.json') as subreddits_file:
-  subs = json.load(subreddits_file)[ENVIRONMENT]
-  subreddits = '+'.join([sub['name'] for sub in subs]) # get '+'-separated list of subreddits
-                                                       # '/r/WOT+wetlanderhumor' works
+    with open('data/answered') as answered_file:
+      self.answered_comments = answered_file.read().split('\n') # don't reply to the same comment more than once
 
-with open('settings/keywords.json') as keywords_file:
-  keywords = json.load(keywords_file) # create the list of keywords to listen for in comments
+    with open('data/blocked_users') as blocked_file:
+      self.blocked_users = blocked_file.read().split('\n') # don't reply to users who don't want replies
 
-with open('data/answered') as answered_file:
-  answered_comments = answered_file.read().split('\n') # don't reply to the same comment more than once
+    with open('data/quotes.json') as quote_file:
+      self.quotes = json.load(quote_file) # Dictionary of quotes indexed by spoiler scope
 
-with open('data/blocked_users') as blocked_file:
-  blocked_users = blocked_file.read().split('\n') # don't reply to users who don't want replies
+  def log(self, string):
+    if ENVIRONMENT == 'production':
+      with open('data/log.txt', 'a') as log_file:
+        log_file.write(string + '\n')
+    else:
+      print(string)
 
-with open('data/quotes.json') as quote_file:
-  quotes = json.load(quote_file) # Dictionary of quotes indexed by spoiler scope
+  def get_flair(self, comment):
+    return comment.submission.link_flair_text
+
+  def register_reply(self, comment_id):
+    self.answered_comments.append(comment_id)
+    with open('data/answered', 'a') as answered_file: # log successful reply so we
+      answered_file.write(comment_id + '\n')          # don't reply again
+
+  def get_legal_quote(self, comment):
+    flair = get_flair(comment)
+    index = self.quotes[flair]['index']
+    quotes = sum([
+                 self.quotes[scope]['quotes'] for scope in self.quotes.keys() if quotes[scope]['index'] <= index
+              ], [])
+    return choice[quotes]
 
 while True:
   log('\n\nRunning wisdom on reddit.com/r/'+subreddits)
