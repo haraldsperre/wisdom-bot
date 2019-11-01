@@ -10,7 +10,8 @@ ENVIRONMENT = 'production' # 'test' = testingground4bots, 'production' = WoT sub
 
 class WisdomBot:
 
-  def __init__(self):
+  def __init__(self, environment):
+    self.environment = environment
     self.reddit = praw.Reddit(site_name='wisdom') # site name defines reddit variables from praw.ini
     with open('settings/subreddits.json') as subreddits_file:
       subs = json.load(subreddits_file)[ENVIRONMENT]
@@ -36,6 +37,8 @@ class WisdomBot:
       print(string)
 
   def get_flair(self, comment):
+    if comment.subreddit_name_prefixed.lower() == 'r/wetlanderhumor':
+      return 'All Print'
     return comment.submission.link_flair_text
 
   def register_reply(self, comment_id):
@@ -44,41 +47,50 @@ class WisdomBot:
       answered_file.write(comment_id + '\n')          # don't reply again
 
   def get_legal_quote(self, comment):
-    flair = get_flair(comment)
-    index = self.quotes[flair]['index']
+    flair = self.get_flair(comment)
+    try:
+      index = self.quotes[flair]['index']
+    except KeyError:
+      index = 0
     quotes = sum([
-                 self.quotes[scope]['quotes'] for scope in self.quotes.keys() if quotes[scope]['index'] <= index
+                 self.quotes[scope]['quotes'] for scope in self.quotes.keys() if self.quotes[scope]['index'] <= index
               ], [])
-    return choice[quotes]
+    return choice(quotes)
 
-while True:
-  log('\n\nRunning wisdom on reddit.com/r/'+subreddits)
-  try:
-    for comment in reddit.subreddit(subreddits).stream.comments(): # continuous stream of comments
-                                                                   # from chosen subreddits
-      comment_text = comment.body
-      comment_id = comment.id
-      if (any(re.search(keyword, comment_text, re.IGNORECASE) for keyword in keywords) and
-        comment.author != 'braid_tugger-bot' and
-        comment.author not in blocked_users and
-        comment_id not in answered_comments):
+  def wisdom_bot(self):
+    while True:
+      self.log('\n\nRunning wisdom on reddit.com/r/'+self.subreddits)
+      try:
+        for comment in self.reddit.subreddit(self.subreddits).stream.comments(): # continuous stream of comments
+                                                                            # from chosen subreddits
+          comment_text = comment.body
+          comment_id = comment.id
+          if (any(re.search(keyword, comment_text, re.IGNORECASE) for keyword in self.keywords) and
+            comment.author != 'braid_tugger-bot' and
+            comment.author not in self.blocked_users and
+            comment_id not in self.answered_comments):
 
-        quote = choice(quotes['None']) # Random spiler-free quote
-        reply = quote.replace('{user}', '/u/'+comment.author.name) # personalize some quotes
-        try:                           # try to reply to the comment
-          comment.reply(reply)
-        except APIException as e: # in case of too many requests, propagate the error
-          raise e                 # to the outer try, wait and try again
-        else:
-          print(comment_text)
-          print(reply)
-          register_reply(comment_id)
-  except KeyboardInterrupt:
-    log('Logging off reddit..\n')
-    break
-  except APIException as e: # most likely due to frequency of requests. Wait before retrying
-    if 'braid_tugger-bot' in [c.author.name for c in comment.replies]:
-      register_reply(comment_id)
-    log(str(e))
-    log(comment_text)
-    time.sleep(10)
+            quote = self.get_legal_quote(comment)
+            # quote = choice(self.quotes['None']) # Random spiler-free quote
+            reply = quote.replace('{user}', '/u/'+comment.author.name) # personalize some quotes
+            try:                           # try to reply to the comment
+              comment.reply(reply)
+            except APIException as e: # in case of too many requests, propagate the error
+              raise e                 # to the outer try, wait and try again
+            else:
+              print(comment_text)
+              print(reply)
+              self.register_reply(comment_id)
+      except KeyboardInterrupt:
+        self.log('Logging off reddit..\n')
+        break
+      except APIException as e: # most likely due to frequency of requests. Wait before retrying
+        if 'braid_tugger-bot' in [c.author.name for c in comment.replies]:
+          self.register_reply(comment_id)
+        self.log(str(e))
+        self.log(comment_text)
+        time.sleep(10)
+
+if __name__ == '__main__':
+  bot = WisdomBot(ENVIRONMENT)
+  bot.wisdom_bot()

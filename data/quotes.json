@@ -1,5 +1,5 @@
 {
-	"None": {
+	"No Spoilers": {
 		"index": 0,
 		"quotes": [
 			"{user} is growing too big for his breeches. When I get my hand on him, I'll lord him.",
@@ -63,76 +63,75 @@
 			"I would ask you not to tell anyone about this. Please?"
 		]
 	},
-	"TV": {
+	"TV Show": {
 		"index": 1,
 		"quotes": []
 	},
 	"The Eye of the World": {
 		"index": 2,
-		"quotes": [],
+		"quotes": []
 	},
 	"The Great Hunt": {
 		"index": 3,
-		"quotes": [],
+		"quotes": []
 	},
 	"The Dragon Reborn": {
 		"index": 4,
-		"quotes": [],
+		"quotes": []
 	},
 	"The Shadow Rising": {
 		"index": 5,
 		"quotes": [
 			"I'm fairly certain three big, hairy men can protect Elayne and me if she pulls a Seanchan army out of her pouch."
-		],
+		]
 	},
 	"The Fires of Heaven": {
 		"index": 6,
 		"quotes": [
 			"What right did that green-eyed cat have to look at Lan's shoulders?"
-		],
+		]
 	},
 	"Lord of Chaos": {
 		"index": 7,
-		"quotes": [],
+		"quotes": []
 	},
 	"A Crown of Swords": {
 		"index": 8,
-		"quotes": [],
+		"quotes": []
 	},
 	"The Path of Daggers": {
 		"index": 9,
-		"quotes": [],
+		"quotes": []
 	},
 	"Winter's Heart": {
 		"index": 10,
-		"quotes": [],
+		"quotes": []
 	},
 	"Crossroads of Twilight": {
 		"index": 11,
-		"quotes": [],
+		"quotes": []
 	},
 	"Knife of Dreams": {
 		"index": 12,
 		"quotes": [
 			"My husband rides from World’s End toward Tarwin’s Gap, toward Tarmon Gai’don. Will he ride alone?",
 			"I told you I would take you to the Borderlands, {user}, and I have. Remember your oath, my heart, because I surely will."
-		],
+		]
 	},
 	"The Gathering Storm": {
 		"index": 13,
-		"quotes": [],
+		"quotes": []
 	},
 	"Towers of Midnight": {
 		"index": 14,
-		"quotes": [],
+		"quotes": []
 	},
 	"A Memory of Light": {
 		"index": 15,
-		"quotes": [],
+		"quotes": []
 	},
-	"All": {
+	"All Print": {
 		"index": 16,
 		"quotes": []
 	}
 }
-
