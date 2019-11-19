@@ -107,3 +107,6 @@ venv.bak/
 data/answered
 praw.ini
 data/log.txt
+
+# Client-specific settings
+settings/environment.txt
