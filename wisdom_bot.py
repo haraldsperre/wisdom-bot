@@ -10,7 +10,7 @@ class WisdomBot:
 
   def __init__(self):
     with open('settings/environment.txt') as environment_file:
-      self.environment = environment_file.read()
+      self.environment = environment_file.read().strip()
 
     self.reddit = praw.Reddit(site_name='wisdom') # site name defines reddit variables from praw.ini
     with open('settings/subreddits.json') as subreddits_file:
@@ -30,7 +30,7 @@ class WisdomBot:
       self.quotes = json.load(quote_file) # Dictionary of quotes indexed by spoiler scope
 
   def log(self, string):
-    if ENVIRONMENT == 'production':
+    if self.environment == 'PRODUCTION':
       with open('data/log.txt', 'a') as log_file:
         log_file.write(string + '\n')
     else:
