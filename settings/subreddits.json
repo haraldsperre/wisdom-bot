@@ -1,11 +1,11 @@
 {
-	"test": [
+	"TEST": [
 		{
 			"name": "testingground4bots",
 			"spoilers": "none"
 		}
 	],
-	"production": [
+	"PRODUCTION": [
 		{
 			"name": "wot",
 			"spoilers": "dynamic"

@@ -8,13 +8,13 @@ from prawcore.exceptions import PrawcoreException as APIException # PRAW API exc
 
 class WisdomBot:
 
-  def __init__(self, environment):
+  def __init__(self):
     with open('settings/environment.txt') as environment_file:
       self.environment = environment_file.read()
 
     self.reddit = praw.Reddit(site_name='wisdom') # site name defines reddit variables from praw.ini
     with open('settings/subreddits.json') as subreddits_file:
-      subs = json.load(subreddits_file)[ENVIRONMENT]
+      subs = json.load(subreddits_file)[self.environment]
       self.subreddits = '+'.join([sub['name'] for sub in subs]) # get '+'-separated list of subreddits
                                                                 # '/r/WOT+wetlanderhumor' works
     with open('settings/keywords.json') as keywords_file:
@@ -57,6 +57,10 @@ class WisdomBot:
               ], [])
     return choice(quotes)
 
+  def get_comment_from_id(self, id):
+    return self.reddit.comment(id)
+
+
   def wisdom_bot(self):
     while True:
       self.log('\n\nRunning wisdom on reddit.com/r/'+self.subreddits)
@@ -92,5 +96,5 @@ class WisdomBot:
         time.sleep(10)
 
 if __name__ == '__main__':
-  bot = WisdomBot(ENVIRONMENT)
+  bot = WisdomBot()
   bot.wisdom_bot()

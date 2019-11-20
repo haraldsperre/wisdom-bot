@@ -60,7 +60,15 @@
 			"I don't want to hear any more of your lies.",
 			"There is no need for her to go to Tar Valon, and get mixed up in your intrigues.",
 			"No! I'll have nothing to do with-- *With what? Myself?*",
-			"I would ask you not to tell anyone about this. Please?"
+			"I would ask you not to tell anyone about this. Please?",
+			"Are you talking to yourself again?",
+			"Your dreams? Have they been troubling you again?",
+			"Everything has been wrong since {user} came into our lives",
+			"Do you sense something, {user}?",
+			"Do you believe we cannot look after ourselves?",
+			"He doesn't know that, and I am not about to tell him. Or anyone else.",
+			"It will be best if we stay low, behave humbly, and do nothing to attract more attention than we already have",
+			"Men! They always say to send for them if you need them, but when you do need one, you need him right then."
 		]
 	},
 	"TV Show": {
@@ -77,7 +85,10 @@
 	},
 	"The Dragon Reborn": {
 		"index": 4,
-		"quotes": []
+		"quotes": [
+			"The White Tower may be all abuzz with your potential, but don't think they will not still you both if the Amyrlin Seat or the Hall of the Tower decides it is necessary.",
+			"They were ready to kill us. Kill us, or carry us off to be tortured."
+		]
 	},
 	"The Shadow Rising": {
 		"index": 5,
