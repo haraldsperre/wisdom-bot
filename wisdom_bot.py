@@ -60,6 +60,10 @@ class WisdomBot:
   def get_comment_from_id(self, id):
     return self.reddit.comment(id)
 
+  def block_user(self, user):
+    self.blocked_users.append(user)
+    with open('data/blocked_users', mode='a') as blocked_file:
+      blocked_file.write(user)
 
   def wisdom_bot(self):
     while True:
@@ -69,22 +73,27 @@ class WisdomBot:
                                                                             # from chosen subreddits
           comment_text = comment.body
           comment_id = comment.id
-          if (any(re.search(keyword, comment_text, re.IGNORECASE) for keyword in self.keywords) and
-            comment.author != 'braid_tugger-bot' and
-            comment.author not in self.blocked_users and
-            comment_id not in self.answered_comments):
-
-            quote = self.get_legal_quote(comment)
-            # quote = choice(self.quotes['None']) # Random spiler-free quote
-            reply = quote.replace('{user}', '/u/'+comment.author.name) # personalize some quotes
-            try:                           # try to reply to the comment
-              comment.reply(reply)
-            except APIException as e: # in case of too many requests, propagate the error
-              raise e                 # to the outer try, wait and try again
-            else:
-              print(comment_text)
-              print(reply)
-              self.register_reply(comment_id)
+          if (
+              comment.author != 'braid_tugger-bot' and
+              comment.author not in self.blocked_users and
+              comment_id not in self.answered_comments
+              ):
+            if ( comment.parent().author == 'braid_tugger-bot' and # allow users to reply with
+              comment_text.lower().find('!stop') == 0 ):                # !stop to be blocked from replies
+              author = comment.author.name
+              print(f'blocking user {author}')
+              self.block_user(author)
+            elif any(re.search(keyword, comment_text, re.IGNORECASE) for keyword in self.keywords):
+              quote = self.get_legal_quote(comment)
+              reply = quote.replace('{user}', '/u/'+comment.author.name) # personalize some quotes
+              try:                           # try to reply to the comment
+                comment.reply(reply)
+              except APIException as e: # in case of too many requests, propagate the error
+                raise e                 # to the outer try, wait and try again
+              else:
+                print(comment_text)
+                print(reply)
+                self.register_reply(comment_id)
       except KeyboardInterrupt:
         self.log('Logging off reddit..\n')
         break
