@@ -7,10 +7,6 @@
 	],
 	"PRODUCTION": [
 		{
-			"name": "wot",
-			"spoilers": "dynamic"
-		},
-		{
 			"name": "wetlanderhumor",
 			"spoilers": "all"
 		}

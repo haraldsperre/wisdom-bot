@@ -16,7 +16,7 @@ class WisdomBot:
     with open('settings/subreddits.json') as subreddits_file:
       subs = json.load(subreddits_file)[self.environment]
       self.subreddits = '+'.join([sub['name'] for sub in subs]) # get '+'-separated list of subreddits
-                                                                # '/r/WOT+wetlanderhumor' works
+                                                                # e.g '/r/WOT+wetlanderhumor'
     with open('settings/keywords.json') as keywords_file:
       self.keywords = json.load(keywords_file) # create the list of keywords to listen for in comments
 
@@ -74,14 +74,14 @@ class WisdomBot:
           comment_text = comment.body
           comment_id = comment.id
           if (
-              comment.author != 'braid_tugger-bot' and
+              comment.author.lower() !== 'braid_tugger-bot'
               comment.author not in self.blocked_users and
               comment_id not in self.answered_comments
               ):
             if ( comment.parent().author == 'braid_tugger-bot' and # allow users to reply with
               comment_text.lower().find('!stop') == 0 ):                # !stop to be blocked from replies
               author = comment.author.name
-              print(f'blocking user {author}')
+              self.log(f'blocking user {author}')
               self.block_user(author)
             elif any(re.search(keyword, comment_text, re.IGNORECASE) for keyword in self.keywords):
               quote = self.get_legal_quote(comment)
